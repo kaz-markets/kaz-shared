@@ -19,3 +19,5 @@ jobs:
 
   arch:
     uses: kaz-markets/.github/.github/workflows/arch.yml@main
+    with:
+      install-flags: " --legacy-peer-deps"
