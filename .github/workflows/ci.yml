@@ -1,19 +1,21 @@
 name: ci
 
+# The steps are the org reusable workflows. kaz-shared resolves its lockfile with
+# --legacy-peer-deps, so node-ci is given that install command.
+
 on:
+  pull_request:
   push:
     branches: [main]
-  pull_request:
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm install --legacy-peer-deps
-      - run: npm run typecheck
-      - run: npm test
+  ci:
+    uses: kaz-markets/.github/.github/workflows/node-ci.yml@main
+    with:
+      install-command: npm install --legacy-peer-deps
+
+  lint:
+    uses: kaz-markets/.github/.github/workflows/lint.yml@main
+
+  arch:
+    uses: kaz-markets/.github/.github/workflows/arch.yml@main
